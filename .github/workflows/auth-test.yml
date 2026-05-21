@@ -1,0 +1,20 @@
+name: Auth Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-auth:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check secret is available
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "FAIL: Secret is empty or missing"
+            exit 1
+          fi
+          echo "PASS: Secret is present"
+          echo "Key prefix: ${ANTHROPIC_API_KEY:0:15}..."
+          echo "Key length: ${#ANTHROPIC_API_KEY}"
